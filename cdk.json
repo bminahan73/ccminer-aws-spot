@@ -2,6 +2,7 @@
   "app": "ts-node src/index.ts",
   "context": {
     "poolUrl": "stratum+tcp://dash03.p2poolmining.us:7903",
-    "destAddress": "XsvFjLQoYJDa4xgR1KHTECsQUrRjBquR4N"
+    "destAddress": "XsvFjLQoYJDa4xgR1KHTECsQUrRjBquR4N",
+    "alarmEmail": "bminahan73@gmail.com"
   }
 }

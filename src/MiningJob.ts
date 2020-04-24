@@ -17,7 +17,7 @@ export class MiningJob extends Construct {
     new JobDefinition(this, "JobDefinition", {
       container: {
         image: ContainerImage.fromAsset(joinpath(__dirname, "..", "docker")),
-        command: "-a ${props.algorithm} -o ${props.poolUrl} -u ${props.destAddress} -p x".split(
+        command: `-a ${props.algorithm} -o ${props.poolUrl} -u ${props.destAddress} -p x`.split(
           " "
         ),
         gpuCount: props.gpus,
