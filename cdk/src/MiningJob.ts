@@ -16,7 +16,7 @@ export class MiningJob extends Construct {
 
     const miningJob = new JobDefinition(this, "JobDefinition", {
       container: {
-        image: ContainerImage.fromAsset(joinpath(__dirname, "..", "docker")),
+        image: ContainerImage.fromAsset(joinpath(__dirname, "..", "..", "docker")),
         command: `-a ${props.algorithm} -o ${props.poolUrl} -u ${props.destAddress} -p x`.split(
           " "
         ),
@@ -32,8 +32,8 @@ export class MiningJob extends Construct {
     const cfnJobDefinition = miningJob.node.defaultChild as CfnJobDefinition;
     cfnJobDefinition.addPropertyOverride('ContainerProperties.ResourceRequirements', [{ Type: 'GPU', Value: props.gpus}]);
 
-    new CfnOutput(this, "JobDefinitionName", {
-      value: JobDefinition.name,
+    new CfnOutput(this, "JobDefinitionArn", {
+      value: miningJob.jobDefinitionArn,
     });
   }
 }

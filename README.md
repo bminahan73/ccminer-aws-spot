@@ -10,10 +10,21 @@ this repository contains an AWS CDK project that will deploy a ccminer running i
 - [NodeJS](https://nodejs.org/en/download/)
 - [AWS CDK](https://aws.amazon.com/cdk/) (or just globally install it via `npm install -g aws-cdk`)
 - bootstrap the CDK ToolKit in your desired AWS account and region via the command `cdk bootstrap`
+- **IMPORTANT** You will also need to request service limit increases in your AWS account for the following: "Running On-Demand All G instances", "Running On-Demand All P instances" to an acceptable level greater than 0 (default is 0, I think they do that to prevent malicious actors from mining)
 
 ## Configuration
 
-you can set the following configuration in the `context` section of `cdk.json`:
+you can set the following configuration in the as context arguments to `cdk deploy`. This is how you configure your deployment.
+
+Example:
+
+```shell
+cd cdk
+cdk deploy \
+  --context 'poolUrl=stratum+tcp://miningpool:8000' \
+  --context 'destAddress=miningaddress12345' \
+  --context 'alarmemail=me@example.com'
+```
 
 | Key         | Description                                   | Required | Default                                          |
 | :---------- | :-------------------------------------------- | :------- | :----------------------------------------------- |
@@ -28,10 +39,26 @@ you can set the following configuration in the `context` section of `cdk.json`:
 
 ## building
 
-`npm run build`
+1. install the dependencies via `./install.sh`
+2. build all the projects via `./build.sh`
 
 ## deploy to AWS
 
-`cdk deploy`
+```shell
+cd cdk
+cdk deploy \
+  --context key1=value1 \
+  ...
+```
+
+Example:
+
+```shell
+cd cdk
+cdk deploy \
+  --context 'poolUrl=stratum+tcp://miningpool:8000' \
+  --context 'destAddress=miningaddress12345' \
+  --context 'alarmemail=me@example.com'
+```
 
 you will also receive an email to SNS. You **must** click the link in the email or else you **will not** ereceive alerts when the configured dollar amount has been exceeded.

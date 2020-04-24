@@ -1,0 +1,28 @@
+{
+  "name": "jobsubmitter",
+  "version": "1.0.0",
+  "description": "lambda function that will submit a job upon its failure",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "parcel build src/index.ts --target=node --global handler --no-minify --no-source-maps --bundle-node-modules --no-cache",
+    "clean": "tsc -b --clean && rm -rf ./dist",
+    "watch": "tsc -w"
+  },
+  "author": "Ben Minahan",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^13.13.2",
+    "aws-sdk": "^2.663.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-externals": "^0.4.0",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3"
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
+  "dependencies": {},
+  "externals": [
+    "aws-sdk"
+  ]
+}
