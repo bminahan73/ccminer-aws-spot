@@ -1,14 +1,34 @@
-# Welcome to your CDK TypeScript project!
+# ccminer in AWS Batch (SPOT compute)
 
-This is a blank project for TypeScript development with CDK.
+this repository contains an AWS CDK project that will deploy a ccminer running in docker on AWS spot compute, via an AWS Batch job.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Prerequisites
 
-## Useful commands
+- an AWS account
+- an IAM user with permissions to create all the resources + Cloudformation permissions
+- the IAM user set us in a [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
+- [NodeJS](https://nodejs.org/en/download/)
+- [AWS CDK](https://aws.amazon.com/cdk/) (or just globally install it via `npm install -g aws-cdk`)
 
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+## Configuration
+
+you can set the following configuration in the `context` section of `cdk.json`:
+
+| Key         | Description                         | Required | Default                                          |
+| :---------- | :---------------------------------- | :------- | :----------------------------------------------- |
+| poolUrl     | pool URL to join and start mining   | **Y**    | N/A                                              |
+| destAddress | address to send profits to          | **Y**    | N/A                                              |
+| account     | the AWS account number to deploy to | N        | account in your supplied credentials via profile |
+| region      | the AWS region to deploy to         | N        | us-east-1                                        |
+| algorithm   | the algorithm to use to mine        | N        | x11                                              |
+| gpus        | number of GPUs to use               | N        | 1                                                |
+
+## building
+
+`npm run build`
+
+## deploy to AWS
+
+`cdk deploy`
+
+to set up the miner, modify `cdk.json` with your preferred config.

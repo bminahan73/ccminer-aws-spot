@@ -7,7 +7,7 @@ export class CCMinerAWSBatch extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const algorithm = this.node.tryGetContext("ccminer.algrorithm");
+    const algorithm = this.node.tryGetContext("ccminer.algrorithm") || "x11";
     const poolUrl = this.node.tryGetContext("ccminer.poolUrl");
     const destAddress = this.node.tryGetContext("ccminer.destAddress");
     const gpus = parseInt(this.node.tryGetContext("ccminer.gpus")) || 1;
@@ -23,9 +23,16 @@ export class CCMinerAWSBatch extends Stack {
 }
 
 const app = new App();
+
+const account =
+  app.node.tryGetContext("account") ||
+  process.env.CDK_DEPLOY_ACCOUNT ||
+  process.env.CDK_DEFAULT_ACCOUNT;
+const region = app.node.tryGetContext("region") || "us-east-1";
+
 new CCMinerAWSBatch(app, "CcminerAwsSpotStack", {
   env: {
-    account: process.env.CDK_DEPLOY_ACCOUNT || process.env.CDK_DEFAULT_ACCOUNT,
-    region: "us-east-1",
+    account: account,
+    region: region,
   },
 });
