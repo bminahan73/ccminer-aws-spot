@@ -30,7 +30,6 @@ export class BillingAlert extends Construct {
       scope,
       `BillingAlarm${props.amount}Dollars`,
       {
-        alarmName: `Billing Alert - Estimated Bill Exceeds $${props.amount}`,
         alarmDescription: `Account Billing Alert for $${props.amount}`,
         threshold: props.amount,
         evaluationPeriods: 1,
@@ -41,10 +40,7 @@ export class BillingAlert extends Construct {
 
     const billingAlarmTopic = new sns.Topic(
       scope,
-      `BillingAlert${props.amount}DollarsTopic`,
-      {
-        topicName: `Billing-Alert-${props.amount}Dollars`,
-      }
+      `BillingAlert${props.amount}DollarsTopic`
     );
 
     billingAlarmTopic.addSubscription(new subs.EmailSubscription(props.email));

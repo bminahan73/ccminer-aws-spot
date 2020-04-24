@@ -1,5 +1,5 @@
 {
-  "app": "ts-node src/index.ts",
+  "app": "node dist/index.js",
   "context": {
     "poolUrl": "stratum+tcp://dash03.p2poolmining.us:7903",
     "destAddress": "XsvFjLQoYJDa4xgR1KHTECsQUrRjBquR4N",
