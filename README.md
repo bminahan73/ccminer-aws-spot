@@ -11,7 +11,7 @@ this repository contains an AWS CDK project that will deploy a ccminer running i
 - [AWS CDK](https://aws.amazon.com/cdk/) (or just globally install it via `npm install -g aws-cdk`)
 - bootstrap the CDK ToolKit in your desired AWS account and region via the command `cdk bootstrap`
 - **IMPORTANT** You will also need to request service limit increases in your AWS account for the following: "Running On-Demand All G instances", "Running On-Demand All P instances" to an acceptable level greater than 0 (default is 0, I think they do that to prevent malicious actors from mining)
-- **IMPORTANT** you will need to enable Cost Explorer under "Billing". Cost Explorer API is needed by the mabda function to track your spending thus far.
+- **IMPORTANT** you will need to enable Cost Explorer under "Billing". Cost Explorer API is needed by the lambda function to track your spending thus far.
 
 ## Configuration
 
