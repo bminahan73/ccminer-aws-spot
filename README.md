@@ -39,4 +39,4 @@ to build then deploy to AWS in one script, take the `deploy.sh.example` file, mo
 
 ### Important Note
 
-during deployment you will receive an email to SNS. You **must** click the link in the email or else you **will not** ereceive alerts when the configured dollar amount has been exceeded.
+during deployment you will receive an email to SNS. You **must** click the link in the email or else you **will not** receive alerts when the configured dollar amount has been exceeded.
