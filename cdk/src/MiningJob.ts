@@ -11,12 +11,16 @@ interface MiningJobProps {
 }
 
 export class MiningJob extends Construct {
+  job: JobDefinition;
+
   constructor(scope: Construct, id: string, props: MiningJobProps) {
     super(scope, id);
 
-    const miningJob = new JobDefinition(this, "JobDefinition", {
+    this.job = new JobDefinition(this, "JobDefinition", {
       container: {
-        image: ContainerImage.fromAsset(joinpath(__dirname, "..", "..", "docker")),
+        image: ContainerImage.fromAsset(
+          joinpath(__dirname, "..", "..", "docker")
+        ),
         command: `-a ${props.algorithm} -o ${props.poolUrl} -u ${props.destAddress} -p x`.split(
           " "
         ),
@@ -29,11 +33,14 @@ export class MiningJob extends Construct {
 
     // this is necessary because of a bug in the CDK: https://github.com/aws/aws-cdk/issues/7586
     // when this is fixed, we can get rid of the following code:
-    const cfnJobDefinition = miningJob.node.defaultChild as CfnJobDefinition;
-    cfnJobDefinition.addPropertyOverride('ContainerProperties.ResourceRequirements', [{ Type: 'GPU', Value: props.gpus}]);
+    const cfnJobDefinition = this.job.node.defaultChild as CfnJobDefinition;
+    cfnJobDefinition.addPropertyOverride(
+      "ContainerProperties.ResourceRequirements",
+      [{ Type: "GPU", Value: props.gpus }]
+    );
 
     new CfnOutput(this, "JobDefinitionArn", {
-      value: miningJob.jobDefinitionArn,
+      value: this.job.jobDefinitionArn,
     });
   }
 }

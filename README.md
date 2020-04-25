@@ -11,20 +11,11 @@ this repository contains an AWS CDK project that will deploy a ccminer running i
 - [AWS CDK](https://aws.amazon.com/cdk/) (or just globally install it via `npm install -g aws-cdk`)
 - bootstrap the CDK ToolKit in your desired AWS account and region via the command `cdk bootstrap`
 - **IMPORTANT** You will also need to request service limit increases in your AWS account for the following: "Running On-Demand All G instances", "Running On-Demand All P instances" to an acceptable level greater than 0 (default is 0, I think they do that to prevent malicious actors from mining)
+- **IMPORTANT** you will need to enable Cost Explorer under "Billing". Cost Explorer API is needed by the mabda function to track your spending thus far.
 
 ## Configuration
 
-you can set the following configuration in the as context arguments to `cdk deploy`. This is how you configure your deployment.
-
-Example:
-
-```shell
-cd cdk
-cdk deploy \
-  --context 'poolUrl=stratum+tcp://miningpool:8000' \
-  --context 'destAddress=miningaddress12345' \
-  --context 'alarmemail=me@example.com'
-```
+you can send the following configuration in as context to the cdk. This is how you can configure your deployment to meet your needs. See "Deploy to AWS" section for how to do this.
 
 | Key         | Description                                   | Required | Default                                          |
 | :---------- | :-------------------------------------------- | :------- | :----------------------------------------------- |
@@ -37,28 +28,15 @@ cdk deploy \
 | algorithm   | the algorithm to use to mine                  | N        | x11                                              |
 | gpus        | number of GPUs to use                         | N        | 1                                                |
 
-## building
+## Building
 
 1. install the dependencies via `./install.sh`
 2. build all the projects via `./build.sh`
 
-## deploy to AWS
+## Deploy to AWS
 
-```shell
-cd cdk
-cdk deploy \
-  --context key1=value1 \
-  ...
-```
+to build then deploy to AWS in one script, take the `deploy.sh.example` file, modify it with your context values, and rename it to `deploy.sh`. Then, just run `./deploy.sh` to install, build, and finally deploy the resources into your AWS account.
 
-Example:
+### Important Note
 
-```shell
-cd cdk
-cdk deploy \
-  --context 'poolUrl=stratum+tcp://miningpool:8000' \
-  --context 'destAddress=miningaddress12345' \
-  --context 'alarmemail=me@example.com'
-```
-
-you will also receive an email to SNS. You **must** click the link in the email or else you **will not** ereceive alerts when the configured dollar amount has been exceeded.
+during deployment you will receive an email to SNS. You **must** click the link in the email or else you **will not** ereceive alerts when the configured dollar amount has been exceeded.

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+./install.sh
+
+./build.sh
+
+### FILL OUT THE CONTEXTS WITH INFO FOR YOUR SETUP
+
+cd cdk && cdk deploy \
+  --context 'poolUrl=stratum+tcp://miningpool:8000' \
+  --context 'destAddress=miningaddress12345' \
+  --context 'alarmEmail=me@example.com'
+
+cd -

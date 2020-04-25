@@ -3,19 +3,23 @@ import { App, Stack, Construct, StackProps, CfnOutput } from "@aws-cdk/core";
 import { SpotComputeEnvironment } from "./SpotComputeEnvironment";
 import { MiningJob } from "./MiningJob";
 import { BillingAlert } from "./BillingAlert";
+import { JobSubmitterFunction } from "./JobSubmitterFunction";
 
 export class CCMinerAWSBatch extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    new SpotComputeEnvironment(this, "SpotComputeEnvironment");
+    const computeEnvironment = new SpotComputeEnvironment(
+      this,
+      "SpotComputeEnvironment"
+    );
 
     const algorithm = this.node.tryGetContext("algrorithm") || "x11";
     const poolUrl = this.node.tryGetContext("poolUrl");
     const destAddress = this.node.tryGetContext("destAddress");
     const gpus = parseInt(this.node.tryGetContext("gpus")) || 1;
 
-    new MiningJob(this, "MiningJob", {
+    const miningJob = new MiningJob(this, "MiningJob", {
       algorithm: algorithm,
       poolUrl: poolUrl,
       destAddress: destAddress,
@@ -28,6 +32,12 @@ export class CCMinerAWSBatch extends Stack {
     new BillingAlert(this, "BillingAlert", {
       email: alarmEmail,
       amount: alarmAmount,
+    });
+
+    new JobSubmitterFunction(this, "JobSubmitterFunction", {
+      jobQueueArn: computeEnvironment.jobQueue.jobQueueArn,
+      jobDefinitionArn: miningJob.job.jobDefinitionArn,
+      monthlyThreshold: alarmAmount,
     });
   }
 }

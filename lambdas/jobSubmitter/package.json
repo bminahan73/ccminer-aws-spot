@@ -11,7 +11,9 @@
   "author": "Ben Minahan",
   "license": "ISC",
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@types/node": "^13.13.2",
+    "@types/uuid": "^7.0.3",
     "aws-sdk": "^2.663.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-externals": "^0.4.0",
@@ -21,7 +23,9 @@
   "browserslist": [
     "last 1 Chrome versions"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "uuid": "^7.0.3"
+  },
   "externals": [
     "aws-sdk"
   ]

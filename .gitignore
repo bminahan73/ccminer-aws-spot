@@ -1,12 +1,21 @@
-*.js
-!jest.config.js
-*.d.ts
-node_modules
+**/*.js
+!**/jest.config.js
+**/*.d.ts
+**/node_modules
+**/dist
 
 # CDK asset staging directory
-.cdk.staging
-cdk.out
+**/.cdk.staging
+**/cdk.out
+
+# CDK context file with info related to your AWS account
+**/cdk.context.json
 
 # Parcel build directories
-.cache
-.build
+**/.cache
+**/.build
+
+# deployment helper script at the root that you can customize
+
+deploy.sh
+
