@@ -1,7 +1,7 @@
 import { Construct, Duration, Stack, CfnOutput } from "@aws-cdk/core";
 import { Function, Runtime, Code } from "@aws-cdk/aws-lambda";
 import { join as joinpath } from "path";
-import { Rule } from "@aws-cdk/aws-events";
+import { Rule, RuleTargetInput } from "@aws-cdk/aws-events";
 import { LambdaFunction } from "@aws-cdk/aws-events-targets";
 import { PolicyStatement } from "@aws-cdk/aws-iam";
 
@@ -45,6 +45,24 @@ export class JobSubmitterFunction extends Construct {
       })
     );
 
+    // rule to kick off a new miner each month.
+    new Rule(this, "MonthlyRule", {
+      schedule: {
+        expressionString: "1 0 1 * ? *", // 12:01AM GMT 1st of each month
+      },
+      targets: [
+        new LambdaFunction(jobSubmitterFunction, {
+          event: RuleTargetInput.fromObject({
+            detail: {
+              jobQueue: props.jobQueueArn,
+              jobDefinition: props.jobDefinitionArn,
+            },
+          }),
+        }),
+      ],
+    });
+
+    // rule for restarting the jobs when SPOT instances are temrinated
     new Rule(this, "JobFailureRule", {
       eventPattern: {
         source: ["aws.batch"],
