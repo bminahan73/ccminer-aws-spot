@@ -13,11 +13,28 @@ import {
   AllocationStrategy,
   ComputeResourceType,
 } from "@aws-cdk/aws-batch";
+import * as instanceSpecs from "./InstanceSpecs.json";
+
+type InstanceSpec = {
+  class: string;
+  size: string;
+};
+
 export class SpotComputeEnvironment extends Construct {
   jobQueue: JobQueue;
+  instanceTypes: InstanceType[] = new Array<InstanceType>();
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    instanceSpecs.map((spec: InstanceSpec) => {
+      this.instanceTypes.push(
+        InstanceType.of(
+          (<any>InstanceClass)[spec.class],
+          (<any>InstanceSize)[spec.size]
+        )
+      );
+    });
 
     const computeEnvironment = new ComputeEnvironment(
       this,
@@ -30,44 +47,7 @@ export class SpotComputeEnvironment extends Construct {
           desiredvCpus: 0,
           minvCpus: 0,
           maxvCpus: 256,
-          // supported GPU instanceTypes for AWS Batch at time of writing: https://docs.aws.amazon.com/batch/latest/userguide/gpu-jobs.html
-          instanceTypes: [
-            // missing g3s.xlarge
-            InstanceType.of(InstanceClass.GRAPHICS3, InstanceSize.XLARGE4),
-            InstanceType.of(InstanceClass.GRAPHICS3, InstanceSize.XLARGE8),
-            InstanceType.of(InstanceClass.GRAPHICS3, InstanceSize.XLARGE16),
-            InstanceType.of(
-              InstanceClass.GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE,
-              InstanceSize.XLARGE
-            ),
-            InstanceType.of(
-              InstanceClass.GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE,
-              InstanceSize.XLARGE2
-            ),
-            InstanceType.of(
-              InstanceClass.GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE,
-              InstanceSize.XLARGE4
-            ),
-            InstanceType.of(
-              InstanceClass.GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE,
-              InstanceSize.XLARGE8
-            ),
-            InstanceType.of(
-              InstanceClass.GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE,
-              InstanceSize.XLARGE12
-            ),
-            InstanceType.of(
-              InstanceClass.GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE,
-              InstanceSize.XLARGE16
-            ),
-            InstanceType.of(InstanceClass.PARALLEL2, InstanceSize.XLARGE),
-            InstanceType.of(InstanceClass.PARALLEL2, InstanceSize.XLARGE8),
-            InstanceType.of(InstanceClass.PARALLEL2, InstanceSize.XLARGE16),
-            InstanceType.of(InstanceClass.PARALLEL3, InstanceSize.XLARGE2),
-            InstanceType.of(InstanceClass.PARALLEL3, InstanceSize.XLARGE8),
-            InstanceType.of(InstanceClass.PARALLEL3, InstanceSize.XLARGE16),
-            // missing p3dn.24xlarge
-          ],
+          instanceTypes: this.instanceTypes,
           type: ComputeResourceType.SPOT,
           image: new EcsOptimizedAmi({
             generation: AmazonLinuxGeneration.AMAZON_LINUX_2,

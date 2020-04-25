@@ -1,0 +1,26 @@
+[
+  {
+    "class": "GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE",
+    "size": "XLARGE"
+  },
+  {
+    "class": "GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE",
+    "size": "XLARGE"
+  },
+  {
+    "class": "GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE",
+    "size": "XLARGE2"
+  },
+  {
+    "class": "GRAPHICS4_NVME_DRIVE_HIGH_PERFORMANCE",
+    "size": "XLARGE4"
+  },
+  {
+    "class": "PARALLEL2",
+    "size": "XLARGE"
+  },
+  {
+    "class": "PARALLEL3",
+    "size": "XLARGE2"
+  }
+]
