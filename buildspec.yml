@@ -8,11 +8,11 @@ phases:
   build:
     commands:
       - ./build.sh
-  artifacts:
-    files:
-      - **
-    name: cloudAssemblyFiles
-    base-directory: cdk/cdk.out
+artifacts:
+  files:
+    - **
+  name: cloudAssemblyFiles
+  base-directory: cdk/cdk.out
 cache:
   paths:
   - cdk/node_modules
