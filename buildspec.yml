@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install -g aws-cdk
+      - ./install.sh
+  build:
+    commands:
+      - ./build.sh
+  artifacts:
+  files:
+    - **
+  name: cloudAssemblyFiles
+  base-directory: cdk/cdk.out
+  secondary-artifacts:
+    jobSubmitterLambda:
+      files:
+        - **
+      name: jobSubmitterLambda
+      base-directory: lambdas/jobSubmitter/dist
+cache:
+  paths:
+  - cdk/node_modules
+  - lambdas/jobSubmitter/node_modules
