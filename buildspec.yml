@@ -9,16 +9,10 @@ phases:
     commands:
       - ./build.sh
   artifacts:
-  files:
-    - **
-  name: cloudAssemblyFiles
-  base-directory: cdk/cdk.out
-  secondary-artifacts:
-    jobSubmitterLambda:
-      files:
-        - **
-      name: jobSubmitterLambda
-      base-directory: lambdas/jobSubmitter/dist
+    files:
+      - **
+    name: cloudAssemblyFiles
+    base-directory: cdk/cdk.out
 cache:
   paths:
   - cdk/node_modules
