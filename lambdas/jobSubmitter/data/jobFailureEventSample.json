@@ -1,8 +1,0 @@
-{
-  "detail-type": "Batch Job State Change",
-  "source": "aws.batch",
-  "detail": {
-    "jobQueue": "arn:aws:batch:us-east-1:209025781076:job-queue/SpotComputeEnvironmentJ-c28248ed25391ac",
-    "jobDefinition": "arn:aws:batch:us-east-1:209025781076:job-definition/MiningJobJobDefinition0-a2563c2f340b74e:6"
-  }
-}
